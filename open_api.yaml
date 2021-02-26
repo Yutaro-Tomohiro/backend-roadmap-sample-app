@@ -1,9 +1,9 @@
 openapi: 3.0.0
 info:
   title: simple blog app
-  version: 0.0.1
+  version: 0.0.2
 paths:
-  /users:
+  /v1/users:
     get:
       tags:
         - Users
@@ -17,22 +17,9 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    name:
-                      type: string
+                  $ref: '#/components/schemas/UsersTemplate'
         "404":
           description: Not Found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Not Found
     post:
       tags:
         - Users
@@ -43,12 +30,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              required:
-                - name
-              properties:
-                name:
-                  type: string
+              $ref: '#/components/schemas/UsersTemplate'
       responses:
         "201":
           description: Created
@@ -56,7 +38,7 @@ paths:
           description: Bad Request
         "409":
           description: Conflict
-  /users/{id}:
+  /v1/users/{id}:
     get:
       tags:
         - Users
@@ -75,24 +57,11 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  name:
-                    type: string
+                $ref: '#/components/schemas/UsersTemplate'
         "400":
           description: Bad Request
         "404":
           description: Not Found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Not Found
     put:
       tags:
         - Users
@@ -110,13 +79,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              required:
-                - name
-              properties:
-                name:
-                  type: string
-                  example: ジョン卍郎
+              $ref: '#/components/schemas/UsersTemplate'
       responses:
         "204":
           description: No Content
@@ -124,14 +87,6 @@ paths:
           description: Bad Request
         "404":
           description: Not Found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Not Found
     delete:
       tags:
         - Users
@@ -151,15 +106,7 @@ paths:
           description: Bad Request
         "404":
           description: Not Found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Not Found
-  /users/{user_id}/posts/:
+  /v1/users/{user_id}/posts/:
     get:
       tags:
         - Posts
@@ -180,26 +127,11 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    title:
-                      type: string
-                      example: 初めての投稿
-                    text:
-                      type: string
-                      example: 初めまして。これからよろしくお願いします。
+                  $ref: '#/components/schemas/PostsTemplate'
         "400":
           description: Bad Request
         "404":
           description: Not Found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Not Found
     post:
       tags:
         - Posts
@@ -217,17 +149,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              required:
-                - title
-                - text
-              properties:
-                title:
-                  type: string
-                  example: 投稿タイトル
-                text:
-                  type: string
-                  example: 投稿の内容
+              $ref: '#/components/schemas/PostsTemplate'
       responses:
         "201":
           description: Created
@@ -235,7 +157,7 @@ paths:
           description: Bad Request
         "409":
           description: Conflict
-  /users/{user_id}/posts/{id}:
+  /v1/users/{user_id}/posts/{id}:
     get:
       tags:
         - Posts
@@ -260,26 +182,11 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  title:
-                    type: string
-                    example: 投稿タイトル
-                  text:
-                    type: string
-                    example: 投稿の内容
+                $ref: '#/components/schemas/PostsTemplate'
         "400":
           description: Bad Request
         "404":
           description: Not Found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Not Found
     put:
       tags:
         - Posts
@@ -303,17 +210,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              required:
-                - title
-                - text
-              properties:
-                title:
-                  type: string
-                  example: 投稿タイトル
-                text:
-                  type: string
-                  example: 投稿の内容
+              $ref: '#/components/schemas/PostsTemplate'
       responses:
         "204":
           description: "No Content"
@@ -321,14 +218,6 @@ paths:
           description: "Bad Request"
         "404":
           description: "Not Found"
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Not Found
     delete:
       tags:
         - Posts
@@ -354,11 +243,27 @@ paths:
           description: Bad Request
         '404':
           description: Not Found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Not Found
+components:
+  schemas:
+    UsersTemplate:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: ユーザー名
+    PostsTemplate:
+      type: object
+      required:
+        - title
+        - text
+      properties:
+        title:
+          type: string
+          example: 投稿タイトル
+        text:
+          type: string
+          example: 投稿の内容
+
+
