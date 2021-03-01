@@ -15,4 +15,9 @@ class ApplicationController < ActionController::API
   def response_conflict
     render status: 409
   end
+
+  # 文字列が数字だけで構成されているかチェックする関数
+  def number?(str)
+    nil != (str =~ /\A[0-9]+\z/)
+  end
 end
