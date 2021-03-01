@@ -16,10 +16,21 @@ module V1
       end
     end
 
+    def show
+      user = User.find_by_id(params[:id])
+
+      if !number?(params[:id])
+        response_bad_request
+      elsif user.nil?
+        response_not_found
+      else
+        render json: user
+      end
+    end
+
     private
       def user_params
         params.permit(:name)
       end
-
   end
 end
