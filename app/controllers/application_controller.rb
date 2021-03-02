@@ -4,6 +4,10 @@ class ApplicationController < ActionController::API
     render status: 201
   end
 
+  def response_no_content
+    render status: 204
+  end
+
   def response_bad_request
     render status: 400
   end

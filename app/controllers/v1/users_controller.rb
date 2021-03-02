@@ -28,6 +28,22 @@ module V1
       end
     end
 
+    def update
+      user = User.find_by_id(params[:id])
+
+      if !number?(params[:id])
+        response_bad_request
+      elsif user.nil?
+        response_not_found
+      elsif params[:name].blank?
+        response_bad_request
+      elsif User.exists?(name: params[:name])
+        response_conflict
+      elsif user.update(user_params)
+        response_no_content
+      end
+    end
+
     private
       def user_params
         params.permit(:name)
