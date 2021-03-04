@@ -1,25 +1,9 @@
 openapi: 3.0.0
 info:
   title: simple blog app
-  version: 0.0.2
+  version: 0.0.3
 paths:
-  /v1/users:
-    get:
-      tags:
-        - Users
-      summary: ユーザ一覧取得
-      description: ユーザーの一覧を取得します。
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/UsersTemplate'
-        "404":
-          description: Not Found
+  /v0/users:
     post:
       tags:
         - Users
@@ -38,7 +22,7 @@ paths:
           description: Bad Request
         "409":
           description: Conflict
-  /v1/users/{id}:
+  /v0/users/{id}:
     get:
       tags:
         - Users
@@ -87,26 +71,7 @@ paths:
           description: Bad Request
         "404":
           description: Not Found
-    delete:
-      tags:
-        - Users
-      summary: ユーザー削除
-      description: 特定のユーザーを削除します。
-      parameters:
-        - name: id
-          in: path
-          description: ユーザーID
-          required: true
-          schema:
-            type: integer
-      responses:
-        "204":
-          description: No Content
-        "400":
-          description: Bad Request
-        "404":
-          description: Not Found
-  /v1/users/{user_id}/posts/:
+  /v0/users/{user_id}/posts/:
     get:
       tags:
         - Posts
@@ -157,7 +122,7 @@ paths:
           description: Bad Request
         "409":
           description: Conflict
-  /v1/users/{user_id}/posts/{id}:
+  /v0/users/{user_id}/posts/{id}:
     get:
       tags:
         - Posts
@@ -261,9 +226,9 @@ components:
       properties:
         title:
           type: string
-          example: 投稿タイトル
-        text:
+          example: 記事のタイトル
+        article:
           type: string
-          example: 投稿の内容
+          example: 記事の内容
 
 
