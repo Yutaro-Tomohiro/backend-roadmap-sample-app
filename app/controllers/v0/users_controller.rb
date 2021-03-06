@@ -1,9 +1,5 @@
-module V1
+module V0
   class UsersController < ApplicationController
-    def index
-      users = User.all
-      users.any? ? (render json: users) : (response_not_found)
-    end
 
     def create
       user = User.new(user_params)
@@ -40,18 +36,6 @@ module V1
       elsif User.exists?(name: params[:name])
         response_conflict
       elsif user.update(user_params)
-        response_no_content
-      end
-    end
-
-    def destroy
-      user = User.find_by_id(params[:id])
-
-      if !number?(params[:id])
-        response_bad_request
-      elsif user.nil?
-        response_not_found
-      elsif user.destroy
         response_no_content
       end
     end
