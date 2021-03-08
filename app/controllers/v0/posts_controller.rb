@@ -11,5 +11,21 @@ module V0
         render json: post
       end
     end
+
+    def create
+      user = User.find_by_id(params[:user_id])
+      post = user&.post&.new(post_params)
+
+      if !number?(params[:user_id]) || user.nil? ||post.title.blank? || post.article.blank?
+        response_bad_request
+      elsif post.save
+        response_created
+      end
+    end
+
+    private
+      def post_params
+        params.permit(:title, :article)
+      end
   end
 end
