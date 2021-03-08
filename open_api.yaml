@@ -1,0 +1,232 @@
+openapi: 3.0.0
+info:
+  title: simple blog app
+  version: 0.0.3
+paths:
+  /v0/users:
+    post:
+      tags:
+        - Users
+      summary: ユーザー新規登録
+      description: 新規のユーザを作成します。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsersTemplate'
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+        "409":
+          description: Conflict
+  /v0/users/{id}:
+    get:
+      tags:
+        - Users
+      summary: 特定のユーザー取得
+      description: 特定のユーザーを取得します。
+      parameters:
+        - name: id
+          in: path
+          description: ユーザーID
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersTemplate'
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+    put:
+      tags:
+        - Users
+      summary: ユーザー更新
+      description: 特定のユーザーを更新します。
+      parameters:
+        - name: id
+          in: path
+          description: ユーザーID
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsersTemplate'
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+  /v0/users/{user_id}/posts/:
+    get:
+      tags:
+        - Posts
+      summary: 投稿一覧取得
+      description: 特定のユーザーの投稿を一覧取得します。
+      parameters:
+        - name: user_id
+          in: path
+          description: ユーザーID
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PostsTemplate'
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+    post:
+      tags:
+        - Posts
+      summary: 新規投稿
+      description: 特定のユーザの新規投稿を作成します。
+      parameters:
+        - name: user_id
+          in: path
+          description: ユーザーID
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostsTemplate'
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+  /v0/users/{user_id}/posts/{id}:
+    get:
+      tags:
+        - Posts
+      summary: 特定の投稿取得
+      description: 特定のユーザーの投稿をidを指定して取得します。
+      parameters:
+        - name: user_id
+          in: path
+          description: ユーザーID
+          required: true
+          schema:
+            type: integer
+        - name: id
+          in: path
+          description: 投稿ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostsTemplate'
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+    put:
+      tags:
+        - Posts
+      summary: 投稿更新
+      description: 特定のユーザーの投稿をidを指定して更新します。
+      parameters:
+        - name: user_id
+          in: path
+          description: ユーザーID
+          required: true
+          schema:
+            type: integer
+        - name: id
+          in: path
+          description: 投稿ID
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostsTemplate'
+      responses:
+        "204":
+          description: "No Content"
+        "400":
+          description: "Bad Request"
+        "404":
+          description: "Not Found"
+    delete:
+      tags:
+        - Posts
+      summary: 投稿削除
+      description: 特定のユーザーの投稿をidを指定して削除します。
+      parameters:
+        - name: user_id
+          in: path
+          description: ユーザーID
+          required: true
+          schema:
+            type: integer
+        - name: id
+          in: path
+          description: 投稿ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+components:
+  schemas:
+    UsersTemplate:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: ユーザー名
+    PostsTemplate:
+      type: object
+      required:
+        - title
+        - text
+      properties:
+        title:
+          type: string
+          example: 記事のタイトル
+        article:
+          type: string
+          example: 記事の内容
+
+
