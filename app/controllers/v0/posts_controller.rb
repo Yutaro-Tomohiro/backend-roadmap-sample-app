@@ -36,6 +36,20 @@ module V0
       end
     end
 
+    def update
+      user = User.find_by_id(params[:user_id])
+      post = user&.post&.find_by_id(params[:id])
+
+      if !number?(params[:user_id]) || user.nil? ||params[:title].blank? || params[:article].blank?
+        response_bad_request
+      elsif post.nil?
+        response_not_found
+      elsif post.update(post_params)
+        response_no_content
+      end
+
+    end
+
     private
       def post_params
         params.permit(:title, :article)
