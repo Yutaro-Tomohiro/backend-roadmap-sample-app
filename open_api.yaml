@@ -120,8 +120,6 @@ paths:
           description: Created
         "400":
           description: Bad Request
-        "409":
-          description: Conflict
   /v0/users/{user_id}/posts/{id}:
     get:
       tags:
